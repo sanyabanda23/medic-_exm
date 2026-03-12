@@ -42,7 +42,7 @@ class BookingDAO(BaseDAO[Booking]):
             .order_by(cls.model.day_booking, cls.model.time_booking)
         )
         result = await session.execute(query)
-        result_draft = result.unique().scalars().all()
+        result_draft = result.unique().scalars().all() # .unique() Устраняет дублирующиеся строки .scalars() возвращает отдельные объекты вместо кортеже
         data_list = []
         for info in result_draft:
             data_list.append({
