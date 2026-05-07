@@ -1,12 +1,33 @@
 from datetime import datetime
-from httpx import AsyncClient
+from httpx import AsyncClient, HTTPStatusError
 from app.config import settings
+
+import logging
+
+logger = logging.getLogger(__name__)
 
 async def bot_send_message(client: AsyncClient, chat_id: int, text: str, kb: list | None = None):
     send_data = {"chat_id": chat_id, "text": text, "parse_mode": "HTML"}
     if kb:
         send_data["reply_markup"] = {"inline_keyboard": kb}
-    await client.post(f"{settings.get_tg_api_url()}/sendMessage", json=send_data)
+    try:
+        response = await client.post(
+            f"{settings.get_tg_api_url()}/sendMessage",
+            json=send_data
+        )
+        response.raise_for_status()  # Вызовет исключение при 4xx/5xx
+
+        result = response.json()
+        logger.info(f"Сообщение успешно отправлено chat_id={chat_id}, message_id={result['result']['message_id']}")
+        return True
+
+    except HTTPStatusError as e:
+        logger.error(f"HTTP ошибка Telegram API: {e.response.status_code} {e.response.text}")
+        logger.error(f"Запрос: {send_data}")
+        return False
+    except Exception as e:
+        logger.error(f"Неожиданная ошибка при отправке сообщения: {e}")
+        return False
 
 async def call_answer(client: AsyncClient, callback_query_id: int, text: str):
     await client.post(f"{settings.get_tg_api_url()}/answerCallbackQuery", json={

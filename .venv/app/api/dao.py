@@ -37,7 +37,7 @@ class BookingDAO(BaseDAO[Booking]):
     async def get_user_bookings_with_doctor_info(cls, session: AsyncSession, user_id: int):
         query = (
             select(cls.model)
-            .options(joinedload(cls.model.doctor))
+            .options(joinedload(cls.model.doctor))  
             .where(cls.model.user_id == user_id)
             .order_by(cls.model.day_booking, cls.model.time_booking)
         )
@@ -65,7 +65,7 @@ class BookingDAO(BaseDAO[Booking]):
             working_hours.append(current_time.strftime("%H:%M"))
             current_time += timedelta(minutes=step_minutes)
 
-        return working_hours[:-1]
+        return working_hours[:-1] # возвращает новый список со всеми элементами исходного списка working_hours, кроме последнего
 
     @classmethod
     async def get_available_slots(
@@ -88,6 +88,7 @@ class BookingDAO(BaseDAO[Booking]):
         try:
             # Сопоставляем дату с началом недели (понедельник)
             start_of_week = start_date - timedelta(days=start_date.weekday()) # возвращает номер дня недели для заданной даты
+            # start_date.weekday() возвращает int в зависимости от дня недели от 0 до 6
             end_of_week = start_of_week + timedelta(days=5) #  добавляет 5 дней к дате, хранящейся в переменной start_of_week
 
             # Получаем существующие брони

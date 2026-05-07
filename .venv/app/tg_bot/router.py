@@ -10,7 +10,7 @@ router = APIRouter()
 
 @router.post("/webhook")
 async def webhook(request: Request, session: AsyncSession = Depends(db.get_db_with_commit)):
-    data = await request.json()
+    data = await request.json() # получает информацию от сервера Telegram о произошедших событиях в нашем боте
     client = http_client_manager.get_client()
     if "message" in data and "text" in data["message"]:
         if data["message"]["text"] == "/start":

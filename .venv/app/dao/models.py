@@ -67,7 +67,7 @@ class Booking(Base):
         DateTime,
         default=datetime.utcnow,
         nullable=False
-    )
+    )                                                        # дата и время внесения записи в базу
 
     # Relationships
     doctor: Mapped["Doctor"] = relationship(back_populates="bookings")

@@ -34,7 +34,7 @@ class BaseDAO(Generic[T]):
     @classmethod
     async def find_one_or_none(cls, session: AsyncSession, filters: BaseModel):
         # Найти одну запись по фильтрам
-        filter_dict = filters.model_dump(exclude_unset=True)
+        filter_dict = filters.model_dump(exclude_unset=True) # позволяет преобразовать модель в словарь, исключая поля, которые не были явно заданы при создании экземпляра.
         logger.info(f"Поиск одной записи {cls.model.__name__} по фильтрам: {filter_dict}")
         try:
             query = select(cls.model).filter_by(**filter_dict)
@@ -154,7 +154,7 @@ class BaseDAO(Generic[T]):
             raise
 
     @classmethod
-    async def paginate(cls, session: AsyncSession, page: int = 1, page_size: int = 10, filters: BaseModel = None):
+    async def paginate(cls, session: AsyncSession, page: int = 1, page_size: int = 10, filters: BaseModel = None):   # возвращает записи для конкретной страницы с учётом фильтра, номера страницы и размера страницы
         # Пагинация записей
         filter_dict = filters.model_dump(exclude_unset=True) if filters else {}
         logger.info(
