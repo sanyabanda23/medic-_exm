@@ -12,7 +12,7 @@ import { VueTelegramPlugin } from "vue-tg";
 const app = createApp(App);
 // Подключает маршрутизатор к приложению
 app.use(router);
-// Регистрирует плагин Telegram в приложении
+// Регистрирует плагин Telegram в приложениb 
 app.use(VueTelegramPlugin);
 //Предоставляет глобальную переменную BASE_SITE всем компонентам приложения
 app.provide("BASE_SITE", "https://jodi-unconferred-makhi.ngrok-free.dev");
