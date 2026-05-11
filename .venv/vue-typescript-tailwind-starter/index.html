@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru"> <!-- Атрибут lang="ru" указывает, что язык страницы — русский -->
+  <!--# Секция head (служебная информация)-->
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" /> <!--# подключает иконку сайта (favicon), которая отображается во вкладке браузера. В данном случае — SVGфайл -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!--# настраивает отображение страницы на мобильных устройствах-->
+    <!--# подключает библиотеку Font Awesome (иконки)-->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <!--# подключает скрипт Telegram Web App. Позволяет интегрировать веб‑приложение в интерфейс Telegram-->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!--# заголовок страницы-->
+    <title>Клиника ЗдоровьеПлюс</title>
+  </head>
+  <!--# Секция body (видимое содержимое)-->
+  <body>
+    <!--# Фреймворк будет «вставлять» сюда всё содержимое страницы-->
+    <div id="app"></div>
+    <!--# подключает основной JavaScript‑код приложения-->
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
