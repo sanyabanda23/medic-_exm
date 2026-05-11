@@ -13,6 +13,7 @@ from app.tg_bot.router import router as router_tg_bot
 
 async def set_webhook(client):
     """Устанавливает вебхук для Telegram-бота."""
+    ## vfg
     try:
         response = await client.post(f"{settings.get_tg_api_url()}/setWebhook", json={
             "url": settings.get_webhook_url()
