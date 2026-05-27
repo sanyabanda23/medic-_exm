@@ -26,15 +26,30 @@ interface Doctor {
 /* функции inject мы получаем базовый URL нашего API (BASE_SITE). 
 Это позволяет нам использовать его в запросах без необходимости дублировать адрес в разных местах кода.*/
 const BASE_SITE = inject('BASE_SITE') as string;
+if (!BASE_SITE) {
+  console.error('BASE_SITE не предоставлен. Проверьте app.provide()');
+}
 /* создаем реактивную переменную searchQuery, которая будет хранить текст запроса для поиска врачей по специализации или описанию.*/
 const searchQuery = ref('');
 /* Используя useFetch, мы выполняем GET-запрос к нашему API по адресу ${BASE_SITE}/specialists. 
 Результаты запроса будут храниться в переменной doctors, а также у нас есть флаги isFetching (для отслеживания состояния загрузки) и error (для обработки ошибок). */
-const {
-    data: doctors,
-    isFetching,
-    error
-} = useFetch(`${BASE_SITE}/specialists`).get().json();
+console.log('BASE_SITE:', BASE_SITE);
+console.log('Полный URL запроса:', `${BASE_SITE}/specialists`);
+
+const { data: doctors, isFetching, error } = useFetch(
+  `${BASE_SITE}/specialists`
+)
+  .get()
+  .json();
+
+// Реактивный обработчик ошибок
+if (error.value) {
+  console.error('Fetch error details:', {
+    error: error.value,
+    // status: status.value, // такого свойства нет
+    url: `${BASE_SITE}/specialists`
+  });
+}
 
 const filteredDoctors = computed(() => {                            /*функция Vue 3 Composition API, создающая вычисляемое свойство */
     if (!doctors.value) return [] as Doctor[];                      /*если условие истинно, возвращается пустой массив, явно приведённый к типу Doctor[] */
